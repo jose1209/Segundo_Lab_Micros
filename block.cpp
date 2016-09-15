@@ -1,11 +1,13 @@
 #include "block.h"
 #include <QBrush>
+#include <QGraphicsScene>
 
-Block::Block(QGraphicsItem *parent): QGraphicsRectItem(parent){
+Block::Block(QGraphicsItem *parent): QGraphicsPixmapItem(parent){
     // draw rect
-    setRect(0,0,50,50);
+    setPixmap(QPixmap(":/imagenes/bloque_verde.png"));
+    /*setRect(16,16,60,30);
     QBrush brush;
     brush.setStyle(Qt::SolidPattern);
     brush.setColor(Qt::blue);
-    setBrush(brush);
+    setBrush(brush);*/
 }

@@ -6,6 +6,7 @@
 #include <QBrush>
 #include <QImage>
 
+
 Game::Game(QWidget* parent){
     // create the scene
     scene = new QGraphicsScene();
@@ -21,7 +22,7 @@ Game::Game(QWidget* parent){
 
     // create a ball
     Ball* ball = new Ball();
-    ball->setPos(200,500);
+    ball->setPos(400,500);
     scene->addItem(ball);
 
     // create the player
@@ -34,10 +35,10 @@ Game::Game(QWidget* parent){
     // add the player to the scene
     scene->addItem(player);
     // create the blocks grid
-    for (size_t a = 0, n = 16; a < n; ++a){
+    for (size_t a = 0, n = 13; a < n; ++a){
         for (size_t i = 0, n = 5; i < n; ++i){
             Block* block = new Block();
-            block->setPos(a*52,i*52); // 2 space b/w blocks (50 height of block)
+            block->setPos(a*62+18,i*32+20); // 2 space b/w blocks (50 height of block)
             scene->addItem(block);
     }
     }
@@ -47,6 +48,7 @@ Game::Game(QWidget* parent){
     score = new Score();
     score->setPos(score->x()+870,score->y()+50);
     scene->addItem(score);
+
     health = new Health();
     health->setPos(health->x()+870,health->y()+25);
     scene->addItem(health);

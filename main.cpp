@@ -1,5 +1,6 @@
 #include <QApplication>
 #include "game.h"
+//#include <QGraphicsPixmapItem>
 
 Game * game;
 

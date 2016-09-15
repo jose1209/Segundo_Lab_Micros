@@ -6,6 +6,7 @@
 #include "block.h"
 #include <QGraphicsScene>
 
+
 extern Game* game;
 
 Ball::Ball(QGraphicsItem *parent): QObject(), QGraphicsPixmapItem(parent){
@@ -17,6 +18,25 @@ Ball::Ball(QGraphicsItem *parent): QObject(), QGraphicsPixmapItem(parent){
     brush.setColor(Qt::red);
     setBrush(brush);*/
 
+     //Movimiento_Inicial_Aleatorio
+     srand(time(0)); //genera semilla basada en el reloj del sistema
+      int random_number=rand()%2+1;
+
+      if (random_number==1){
+          xVelocity = -3;
+          yVelocity = -5;
+      }
+     else if (random_number==2){
+
+          xVelocity =  3;
+          yVelocity = -5;
+      }
+
+      QTimer* timer = new QTimer();
+      connect(timer,SIGNAL(timeout()),this,SLOT(move()));
+      timer->start(25);
+  }
+/*
 // move up right initially
      xVelocity = 0;
      yVelocity = -5;
@@ -25,14 +45,14 @@ Ball::Ball(QGraphicsItem *parent): QObject(), QGraphicsPixmapItem(parent){
      connect(timer,SIGNAL(timeout()),this,SLOT(move()));
      timer->start(25);
  }
-
+*/
 double Ball::getCenterX(){
     return x() + pixmap().width()/2;
 }
 
 void Ball::move(){
     // if out of bounds, reverse the velocity
-//    reverseVelocityIfOutOfBounds();
+    reverseVelocityIfOutOfBounds();
 
     // if collides with paddle, reverse yVelocity, and add xVelocity
     // depending on where (in the x axis) the ball hits the paddle
@@ -42,6 +62,14 @@ void Ball::move(){
     handleBlockCollision();
 
     moveBy(xVelocity,yVelocity);
+
+    if (pos().y() > 600){
+        //decrease the health
+        game->health->decrease();
+        scene()->removeItem(this);
+        delete this;
+
+    }
 
 }
 
@@ -103,33 +131,36 @@ void Ball::handleBlockCollision(){
             // delete block(s)
             game->scene->removeItem(block);
             delete block;
+             game->score->increase();
         }
     }
 }
 
+    void Ball::reverseVelocityIfOutOfBounds(){
+        // check if out of bound, if so, reverse the proper velocity
+        //double screenW = game->width();
+        //double screenH = game->height();
 
+        double ballx = pos().x();
+        double bally = pos().y();
 
-/*
-void Ball::reverseVelocityIfOutOfBounds(){
-    // check if out of bound, if so, reverse the proper velocity
-    double screenW = game->width();
-    double screenH = game->height();
+        // left edge
+        if (ballx > 16){
+            xVelocity = -1 * xVelocity;
+        }
 
-    // left edge
-    if (mapToScene(ball().topLeft()).x() <= 0){
-        xVelocity = -1 * xVelocity;
+        // right edge
+        if (ballx + 100 < 900){
+            xVelocity = -1 * xVelocity;
+        }
+
+        // top edge
+        if (bally < 16){
+            yVelocity = -1 * yVelocity;
+        }
+
+        // bottom edge - NONE (can fall through bottom
     }
 
-    // right edge
-    if (mapToScene(ball().topRight()).x() >= screenW){
-        xVelocity = -1 * xVelocity;
-    }
 
-    // top edge
-    if (mapToScene(ball().topLeft()).y() <= 0){
-        yVelocity = -1 * yVelocity;
-    }
-
-    // bottom edge - NONE (can fall through bottom
-}*/
 

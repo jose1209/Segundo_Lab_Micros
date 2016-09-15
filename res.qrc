@@ -1,0 +1,11 @@
+<RCC>
+    <qresource prefix="/imagenes">
+        <file>plataforma.png</file>
+        <file>fondo_2.png</file>
+        <file>bolapng.png</file>
+        <file>bloque_naranja.png</file>
+        <file>bloque_rojo.png</file>
+        <file>bloque_verde.png</file>
+        <file>vida.png</file>
+    </qresource>
+</RCC>
